@@ -219,6 +219,10 @@ export default function Home() {
 			emoji: false,
 		});
 		showtenor(false);
+		const messageBox = document.getElementById("messageBox");
+		if (messageBox) {
+			messageBox.scrollBy(0, 60000);
+		}
 	};
 
 	return (
