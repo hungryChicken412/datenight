@@ -1031,6 +1031,11 @@
     "@babel/runtime" "^7.8.7"
     "csstype" "^3.0.2"
 
+"emoji-mart@^5.5.2":
+  "integrity" "sha512-Sqc/nso4cjxhOwWJsp9xkVm8OF5c+mJLZJFoFfzRuKO+yWiN7K8c96xmtughYb0d/fZ8UC6cLIQ/p4BR6Pv3/A=="
+  "resolved" "https://registry.npmjs.org/emoji-mart/-/emoji-mart-5.5.2.tgz"
+  "version" "5.5.2"
+
 "emoji-regex@^8.0.0":
   "integrity" "sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A=="
   "resolved" "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz"

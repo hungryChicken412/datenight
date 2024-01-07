@@ -81,15 +81,33 @@ export default function Home() {
 			.value;
 
 		if (msg !== "") {
-			const message = {
-				user: username,
-				message: msg,
-				gif: false,
-				time: new Date().toLocaleTimeString(),
-				gifURL: "",
-			};
+			let q = msg.split(".");
+			console.log(q);
+			console.log(q[q.length - 1]);
+			console.log(
+				["gif", "png", "jpeg", "webp"].includes(q[q.length - 1])
+			);
+			if (["gif", "png", "jpeg", "webp"].includes(q[q.length - 1])) {
+				const message = {
+					user: username,
+					message: "",
+					gif: true,
+					time: new Date().toLocaleTimeString(),
+					gifURL: msg,
+				};
 
-			push(ref(db, roomID + "/"), message);
+				push(ref(db, roomID + "/"), message);
+			} else {
+				const message = {
+					user: username,
+					message: msg,
+					gif: false,
+					time: new Date().toLocaleTimeString(),
+					gifURL: "",
+				};
+
+				push(ref(db, roomID + "/"), message);
+			}
 
 			(
 				document.getElementById("inputMessage") as HTMLInputElement

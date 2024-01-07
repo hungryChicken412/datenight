@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@szhsin/react-menu": "^4.1.0",
+    "emoji-mart": "^5.5.2",
     "firebase": "^10.7.1",
     "gif-picker-react": "^1.3.2",
     "next": "14.0.4",
