@@ -9,12 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emoji-mart/data": "^1.1.2",
+    "@emoji-mart/react": "^1.1.1",
     "@szhsin/react-menu": "^4.1.0",
     "emoji-mart": "^5.5.2",
     "firebase": "^10.7.1",
     "gif-picker-react": "^1.3.2",
     "next": "14.0.4",
     "rc-dropdown": "^4.1.0",
+    "rctx-contextmenu": "^1.4.1",
     "react": "^18",
     "react-dom": "^18",
     "react-draggable": "^4.4.6",

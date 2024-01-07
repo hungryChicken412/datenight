@@ -26,12 +26,21 @@ import "react-notifications/lib/notifications.css";
 import { ReactNotifications } from "react-notifications-component";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import {
+	ContextMenuTrigger,
+	ContextMenu,
+	ContextMenuItem,
+} from "rctx-contextmenu";
+
 import Draggable from "react-draggable";
 
 import { usePathname } from "next/navigation";
 export default function Home() {
 	const [show, setShow] = useState(false);
 	const [settings, setSettings] = useState(false);
+	const [emoji, showEmoji] = useState(false);
 	const [tenor, showtenor] = useState(false);
 
 	const [messageIndex, setMessageIndex] = useState(0);
@@ -67,7 +76,7 @@ export default function Home() {
 		if (window.innerWidth < 900) {
 			setShow(false);
 		} else {
-			setShow(true);
+			setShow(false);
 		}
 
 		return () => {
@@ -79,6 +88,8 @@ export default function Home() {
 		event.preventDefault();
 		let msg = (document.getElementById("inputMessage") as HTMLInputElement)
 			.value;
+		showEmoji(false);
+		showtenor(false);
 
 		if (msg !== "") {
 			let q = msg.split(".");
@@ -94,6 +105,7 @@ export default function Home() {
 					gif: true,
 					time: new Date().toLocaleTimeString(),
 					gifURL: msg,
+					emoji: false,
 				};
 
 				push(ref(db, roomID + "/"), message);
@@ -104,6 +116,7 @@ export default function Home() {
 					gif: false,
 					time: new Date().toLocaleTimeString(),
 					gifURL: "",
+					emoji: false,
 				};
 
 				push(ref(db, roomID + "/"), message);
@@ -131,6 +144,7 @@ export default function Home() {
 				gif: false,
 				time: new Date().toLocaleTimeString(), // 11:18:48 AM,
 				gifURL: "",
+				emoji: false,
 			},
 		});
 		toast.success("Chat Deleted");
@@ -176,6 +190,24 @@ export default function Home() {
 	const showTenorBoard = () => {
 		showtenor(!tenor);
 	};
+	const showEmojiBoard = () => {
+		showEmoji(!emoji);
+	};
+	const addToMessage = (emoji: { native: string }) => {
+		showEmoji(false);
+		push(ref(db, roomID + "/"), {
+			user: username,
+			message: emoji.native,
+			gif: false,
+			time: new Date().toLocaleTimeString(),
+			gifURL: "",
+			emoji: true,
+		});
+		const messageBox = document.getElementById("messageBox");
+		if (messageBox) {
+			messageBox.scrollBy(0, 60000);
+		}
+	};
 
 	const sendGif = (tenorImage: { url: any }) => {
 		push(ref(db, roomID + "/"), {
@@ -184,6 +216,7 @@ export default function Home() {
 			gif: true,
 			time: new Date().toLocaleTimeString(),
 			gifURL: tenorImage.url,
+			emoji: false,
 		});
 		showtenor(false);
 	};
@@ -400,7 +433,10 @@ export default function Home() {
 									<div
 										className={
 											"chat_message_content" +
-											((message as { gif: string })?.gif
+											((message as { gif: string })
+												?.gif ||
+											(message as { emoji: string })
+												?.emoji
 												? " gif"
 												: "")
 										}
@@ -412,26 +448,53 @@ export default function Home() {
 											}
 										</div>
 										<div className="chat_message_text">
-											{(message as { gif: boolean })
-												.gif ? (
-												<img
-													src={
-														(
-															message as {
-																gifURL: string;
-															}
-														).gifURL
-													}
-													style={{
-														borderRadius: 20,
-													}}
-													alt="gif"
-													width={200}
-												/>
-											) : (
-												(message as { message: string })
-													?.message
-											)}
+											<>
+												{(message as { emoji: boolean })
+													.emoji ? (
+													<>
+														<div className="emoji_pallet">
+															{
+																(
+																	message as {
+																		message: string;
+																	}
+																)?.message
+															}{" "}
+														</div>
+													</>
+												) : (
+													<>
+														<>
+															{(
+																message as {
+																	gif: boolean;
+																}
+															).gif ? (
+																<img
+																	src={
+																		(
+																			message as {
+																				gifURL: string;
+																			}
+																		).gifURL
+																	}
+																	style={{
+																		borderRadius: 20,
+																	}}
+																	alt="gif"
+																	width={200}
+																/>
+															) : (
+																(
+																	message as {
+																		message: string;
+																	}
+																)?.message
+															)}
+														</>
+													</>
+												)}
+											</>
 										</div>
 										<div className="chat_message_time">
 											{(message as { time: string }).time}
@@ -439,6 +502,15 @@ export default function Home() {
 									</div>
 								</div>
 							))}
+						</div>
+
+						<div
+							className="emoji_picker"
+							style={{
+								display: emoji ? "flex" : "none",
+							}}
+						>
+							<Picker data={data} onEmojiSelect={addToMessage} />
 						</div>
 
 						<div
@@ -466,7 +538,7 @@ export default function Home() {
 								className="chat_input__input"
 								id="inputMessage"
 							/>
-							<button type="button" onClick={showTenorBoard}>
+							<button type="button" onClick={showEmojiBoard}>
 								<MdEmojiEmotions size={28} />
 							</button>
 

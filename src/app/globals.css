@@ -4,7 +4,10 @@
 	--tersory-color: rgb(255 255 255);
 	--text-color: black;
 }
-
+@font-face {
+	font-family: "EmojiMart";
+	src: url("../../public/seguiemj.ttf") format("truetype");
+}
 /* 	--primary-color: #1c1e24;
 	--secondary-color: #ff7179;
 	--tersory-color: #2a2c33;
@@ -80,6 +83,7 @@ body {
 	animation: menuSlide 0.5s ease-in-out;
 	height: 100%;
 	display: flex;
+	display: none;
 	flex-direction: column;
 
 	justify-content: start;
@@ -137,7 +141,6 @@ body {
 }
 
 .chat_controls__buttons {
-	border: 2px solid #2e2f3a;
 	display: flex;
 	border-radius: 20px;
 }
@@ -163,7 +166,7 @@ body {
 
 .sharecode .code {
 	font-size: small;
-	color: rgba(255, 255, 255, 0.401);
+	color: rgba(130, 130, 130, 0.401);
 	font-weight: 600;
 }
 
@@ -174,7 +177,7 @@ body {
 	padding: 20px;
 	background-color: transparent;
 	border: 0;
-	color: white;
+	color: var(--secondary-color);
 
 	transition: 0.3s;
 	font-weight: bold;
@@ -228,6 +231,17 @@ svg {
 	font-size: 8px;
 	color: rgb(167, 167, 167);
 	font-weight: bolder;
+}
+
+.emoji_pallet {
+	font-size: 100px;
+	font-family: EmojiMart;
+}
+
+.emoji_picker {
+	position: absolute;
+	right: 0;
+	bottom: 60px;
 }
 
 .Chatroom .dashboard .chat .chat_container .recieving {
