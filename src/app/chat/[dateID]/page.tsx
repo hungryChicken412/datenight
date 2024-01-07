@@ -64,6 +64,10 @@ export default function Home() {
 				try {
 					setMessages(Object.values(data));
 					setMessageIndex(data.length - 1);
+					const messageBox = document.getElementById("messageBox");
+					if (messageBox) {
+						messageBox.scrollBy(0, 60000);
+					}
 				} catch (error) {
 					console.log(error);
 				}
@@ -93,11 +97,7 @@ export default function Home() {
 
 		if (msg !== "") {
 			let q = msg.split(".");
-			console.log(q);
-			console.log(q[q.length - 1]);
-			console.log(
-				["gif", "png", "jpeg", "webp"].includes(q[q.length - 1])
-			);
+
 			if (["gif", "png", "jpeg", "webp"].includes(q[q.length - 1])) {
 				const message = {
 					user: username,

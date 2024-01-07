@@ -245,7 +245,7 @@ svg {
 }
 
 .Chatroom .dashboard .chat .chat_container .recieving {
-	animation: messageFromReciever 0.5s ease;
+	animation: messageFromReciever 0.4s ease;
 	flex-direction: row;
 }
 .Chatroom .dashboard .chat .chat_container .sending {
@@ -521,7 +521,7 @@ svg {
 
 @keyframes messageFromReciever {
 	0% {
-		transform: translateX(100%);
+		transform: translateX(-100%);
 	}
 	100% {
 		transform: translateX(0%);
