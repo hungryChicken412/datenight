@@ -249,7 +249,7 @@ svg {
 	flex-direction: row;
 }
 .Chatroom .dashboard .chat .chat_container .sending {
-	animation: messageFromReciever 0.5s ease;
+	animation: messageComein 0.5s ease;
 	flex-direction: row-reverse;
 }
 
@@ -529,7 +529,7 @@ svg {
 }
 @keyframes messageComein {
 	0% {
-		transform: translateX(-100%);
+		transform: translateX(100%);
 	}
 	100% {
 		transform: translateX(0%);
