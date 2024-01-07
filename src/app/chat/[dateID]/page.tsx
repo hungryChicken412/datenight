@@ -4,29 +4,43 @@ import { HiMiniVideoCamera, HiShare } from "react-icons/hi2";
 import { MdCallEnd, MdMenu } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
-import { FcMenu, FcMusic } from "react-icons/fc";
-import { GrDrag } from "react-icons/gr";
+import { FcMusic } from "react-icons/fc";
+import { HiMiniGif } from "react-icons/hi2";
+
+import GifPicker from "gif-picker-react";
+
+import { GrSettingsOption } from "react-icons/gr";
 import { ImCross } from "react-icons/im";
-import { initializeApp } from "firebase/app";
 
 import { FcFilmReel } from "react-icons/fc";
 import { HiMiniChatBubbleBottomCenterText } from "react-icons/hi2";
-import { IoIosMenu } from "react-icons/io";
-import { IoMdArrowDown } from "react-icons/io";
-
-import { FirebaseApp } from "firebase/app";
 
 import db from "../../../../config";
 import { useEffect, useRef, useState } from "react";
-import { getDatabase, ref, onValue, set, push } from "firebase/database";
+import "@szhsin/react-menu/dist/index.css";
+import "@szhsin/react-menu/dist/transitions/slide.css";
+import { ref, onValue, set, push } from "firebase/database";
 import { off } from "firebase/database";
-import { Router, useRouter } from "next/router";
+import { Menu, MenuItem, MenuButton, SubMenu } from "@szhsin/react-menu";
+import "react-notifications/lib/notifications.css";
+import { ReactNotifications } from "react-notifications-component";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Draggable from "react-draggable";
+
 import { usePathname } from "next/navigation";
 export default function Home() {
 	const [show, setShow] = useState(false);
-	const pathname = usePathname();
+	const [settings, setSettings] = useState(false);
+	const [tenor, showtenor] = useState(false);
+
 	const [messageIndex, setMessageIndex] = useState(0);
+	const [username, setUsername] = useState("user");
 	const [roomID, setRoomID] = useState("0");
+	const [messages, setMessages] = useState([]);
+
+	const messageBox = useRef<HTMLDivElement>(null);
+	const pathname = usePathname();
 
 	useEffect(() => {
 		let id = pathname.split("/")[2];
@@ -50,38 +64,42 @@ export default function Home() {
 			}
 		);
 
-		return () => {
-			off(dbRef, "value", listener);
-		};
-	}, []);
-
-	const [messages, setMessages] = useState([]);
-
-	const messageBox = useRef(HTMLDivElement);
-	useEffect(() => {
 		if (window.innerWidth < 900) {
 			setShow(false);
 		} else {
 			setShow(true);
 		}
+
+		return () => {
+			off(dbRef, "value", listener);
+		};
 	}, []);
 
-	const showMenu = () => {
-		setShow(!show);
-	};
-
-	const sendMessage = () => {
+	const sendMessage = (event: { preventDefault: () => void }) => {
+		event.preventDefault();
 		let msg = (document.getElementById("inputMessage") as HTMLInputElement)
 			.value;
 
 		if (msg !== "") {
 			const message = {
-				user: "Username",
+				user: username,
 				message: msg,
-				sender: "self",
+				gif: false,
+				gifURL: "",
 			};
 
 			push(ref(db, roomID + "/"), message);
+
+			(
+				document.getElementById("inputMessage") as HTMLInputElement
+			).value = "";
+
+			// scroll to bottom
+
+			const messageBox = document.getElementById("messageBox");
+			if (messageBox) {
+				messageBox.scrollBy(0, 60000);
+			}
 		}
 	};
 
@@ -89,10 +107,11 @@ export default function Home() {
 		set(ref(db, roomID + "/"), {
 			1: {
 				message: "Start Talking",
-				sender: "recieving",
+
 				user: "Admin",
 			},
 		});
+		toast.success("Chat Deleted");
 
 		console.log("deleted");
 	};
@@ -102,7 +121,7 @@ export default function Home() {
 		push(ref(db), {
 			1: {
 				message: "Start Talking",
-				sender: "recieving",
+
 				user: "Admin",
 			},
 		});
@@ -111,11 +130,45 @@ export default function Home() {
 	const copyCode = () => {
 		let id = pathname.split("/")[2];
 		navigator.clipboard.writeText(window.location.href);
+		toast.success("Room ID Copied");
+	};
+
+	const saveUsername = () => {
+		let username = (document.getElementById("username") as HTMLInputElement)
+			.value;
+
+		setUsername(username);
+		if (username !== "") {
+			toast.success("Username Saved! Changed to " + username);
+		}
+
+		setSettings(false);
+	};
+
+	const showSettings = () => {
+		setSettings(!settings);
+	};
+	const showMenu = () => {
+		setShow(!show);
+	};
+	const showTenorBoard = () => {
+		showtenor(!tenor);
+	};
+
+	const sendGif = (tenorImage: { url: any }) => {
+		push(ref(db, roomID + "/"), {
+			user: username,
+			message: "",
+			gif: true,
+			gifURL: tenorImage.url,
+		});
+		showtenor(false);
 	};
 
 	return (
 		<>
 			<div className="Chatroom">
+				<ToastContainer />
 				<div className="dashboard">
 					<div
 						className="props dashboard__left"
@@ -237,20 +290,38 @@ export default function Home() {
 									{" "}
 									<MdMenu size={28} />
 								</button>
-								<button className="">
-									{" "}
-									<MdCallEnd size={17} />
-								</button>
 								<button>
-									<HiMiniVideoCamera size={17} />
+									{" "}
+									<Menu
+										menuButton={
+											<MenuButton>
+												<GrSettingsOption size={17} />
+											</MenuButton>
+										}
+									>
+										<MenuItem>Export Chat</MenuItem>
+										<SubMenu label="Edit">
+											<MenuItem onClick={showSettings}>
+												Change Username
+											</MenuItem>
+											<MenuItem onClick={deleteChat}>
+												Delete Chat
+											</MenuItem>
+										</SubMenu>
+									</Menu>
 								</button>
 
-								<button
-									className=""
-									style={{ color: "#ff7179" }}
-								>
-									{" "}
-									<FaHeart size={17} />
+								<button>
+									<Menu
+										menuButton={
+											<MenuButton>
+												<HiMiniVideoCamera size={17} />
+											</MenuButton>
+										}
+									>
+										<MenuItem>Voice Call</MenuItem>
+										<MenuItem>Video Call</MenuItem>
+									</Menu>
 								</button>
 							</div>
 							<div className="chat_controls__buttons">
@@ -267,25 +338,15 @@ export default function Home() {
 									</div>
 								</button>
 							</div>
-							<div className="chat_controls__buttons">
-								<button
-									className=""
-									onClick={deleteChat}
-									style={{ color: " #rgb(205 17 28)" }}
-								>
-									{" "}
-									<MdDelete size={17} />
-								</button>
-							</div>
 						</div>
-						<div className="chat_container">
+						<div className="chat_container" id="messageBox">
 							{messages.map((message) => (
 								<div
 									key={(message as { time: string })?.time}
 									className={
 										"chat_message" +
-										((message as { sender: string })
-											?.sender == "self"
+										((message as { user: string })?.user ==
+										username
 											? " sending"
 											: " recieving")
 									}
@@ -299,7 +360,14 @@ export default function Home() {
 										/>
 									</div>
 
-									<div className="chat_message_content">
+									<div
+										className={
+											"chat_message_content" +
+											((message as { gif: string })?.gif
+												? " gif"
+												: "")
+										}
+									>
 										<div className="chat_message_username">
 											{
 												(message as { user: string })
@@ -307,17 +375,51 @@ export default function Home() {
 											}
 										</div>
 										<div className="chat_message_text">
-											{
+											{(message as { gif: boolean })
+												.gif ? (
+												<img
+													src={
+														(
+															message as {
+																gifURL: string;
+															}
+														).gifURL
+													}
+													style={{
+														borderRadius: 20,
+													}}
+													alt="gif"
+													width={200}
+												/>
+											) : (
 												(message as { message: string })
 													?.message
-											}
+											)}
 										</div>
 									</div>
 								</div>
 							))}
 						</div>
 
-						<div className="chat_input">
+						<div
+							className="giphy_picker"
+							style={{
+								display: tenor ? "flex" : "none",
+							}}
+						>
+							<GifPicker
+								height={"100%"}
+								onGifClick={sendGif}
+								tenorApiKey={
+									"AIzaSyC5A-SqiaWxo58TTu-wYNqEbPBvKzqc6uM"
+								}
+							/>
+							<div
+								className="closingPanel"
+								onClick={showTenorBoard}
+							></div>
+						</div>
+						<form className="chat_input" onSubmit={sendMessage}>
 							<input
 								type="text"
 								placeholder=" Type Message ..."
@@ -325,10 +427,30 @@ export default function Home() {
 								id="inputMessage"
 							/>
 
-							<button onClick={sendMessage}>
+							<button type="button" onClick={showTenorBoard}>
+								<HiMiniGif />
+							</button>
+
+							<button type="submit">
 								<HiMiniChatBubbleBottomCenterText />
 							</button>
-						</div>
+						</form>
+					</div>
+				</div>
+
+				<div
+					className="editor"
+					style={{
+						display: settings ? "flex" : "none",
+					}}
+				>
+					<div className="editor__container">
+						<input
+							type="text"
+							placeholder="Username"
+							id="username"
+						/>
+						<button onClick={saveUsername}> Save </button>
 					</div>
 				</div>
 			</div>

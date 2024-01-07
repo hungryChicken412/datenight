@@ -133,12 +133,13 @@ body {
 .sharecode {
 	display: flex;
 	flex-direction: row-reverse;
-	align-items: center; transition: all 0.4s ease-in;
+	align-items: center;
+	transition: all 0.4s ease-in;
 	justify-content: center;
 }
 
-.sharecode:hover{
-	 transform: scale(1.02);
+.sharecode:hover {
+	transform: scale(1.02);
 }
 
 .sharecode .head {
@@ -283,6 +284,30 @@ svg {
 	color: white;
 }
 
+.giphy_picker {
+	animation: tenorAnimation 0.5s ease-in-out;
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	flex-direction: row;
+	z-index: 9999;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	align-items: center;
+}
+.giphy_picker .gpr-main {
+	height: 100%;
+	width: 25%;
+}
+
+.closingPanel {
+	height: 100%;
+	z-index: 2;
+	width: 75%;
+}
+
 .Chatroom .dashboard .chat_input .chat_input__input {
 	width: 100%;
 	height: 100%;
@@ -298,9 +323,27 @@ svg {
 	display: none;
 }
 
+.gif {
+	background-color: transparent !important;
+}
+
 @media screen and (max-width: 768px) {
 	.mobileOnly {
 		display: flex;
+	}
+
+	.giphy_picker {
+		height: 100%;
+		width: 100%;
+		flex-direction: column;
+	}
+	.gpr-main {
+		width: 100% !important;
+		height: 75% !important;
+	}
+	.closingPanel {
+		width: 100% !important;
+		height: 25% !important;
 	}
 	.Chatroom .dashboard .dashboard__left {
 		display: flex;
@@ -367,6 +410,62 @@ svg {
 	.chat_controls__buttons {
 		border: 0;
 		display: flex;
+	}
+
+	.sharecode .code {
+		display: none;
+	}
+}
+
+.editor {
+	display: flex;
+	position: absolute;
+	justify-content: center;
+	align-items: center;
+
+	backdrop-filter: blur(20px);
+	top: 0;
+	left: 0;
+	z-index: 99999;
+	height: 100%;
+	width: 100%;
+}
+
+.editor .editor__container {
+	height: 80%;
+	width: 80%;
+	background-color: var(--primary-color);
+	border-radius: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.editor .editor__container input {
+	background-color: var(--tersory-color);
+	color: white;
+	border: 0;
+	padding: 20px;
+	margin: 8px;
+	border-radius: 20px;
+}
+
+.editor .editor__container button {
+	background-color: var(--tersory-color);
+	color: white;
+	border: 0;
+	padding: 20px;
+	margin: 8px;
+	border-radius: 20px;
+}
+
+@keyframes tenorAnimation {
+	0% {
+		transform: translateY(-100%);
+	}
+	100% {
+		transform: translateY(0%);
 	}
 }
 
