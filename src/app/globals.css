@@ -1,9 +1,14 @@
 :root {
 	--primary-color: #1c1e24;
+	--secondary-color: rgb(236 53 163);
+	--tersory-color: rgb(255 255 255);
+	--text-color: black;
+}
+
+/* 	--primary-color: #1c1e24;
 	--secondary-color: #ff7179;
 	--tersory-color: #2a2c33;
-	--text-color: white;
-}
+	--text-color: white;*/
 
 ::-webkit-scrollbar {
 	width: 4px;
@@ -23,13 +28,20 @@
 ::-webkit-scrollbar-thumb:hover {
 	background: #555;
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap");
+
 html,
 body {
 	height: 100%;
 	width: 100%;
+
 	margin: 0;
 	padding: 0;
-	background-color: var(--primary-color);
+	background: url("https://e1.pxfuel.com/desktop-wallpaper/353/335/desktop-wallpaper-pastel-gradient-light-green-gradient-thumbnail.jpg");
+	background-size: cover;
+	font-family: "Ubuntu", sans-serif;
+
 	color: var(--text-color);
 	overflow: hidden;
 }
@@ -198,10 +210,11 @@ svg {
 	width: 100%;
 	display: flex;
 	min-height: min-content;
-	border: 2px solid #2e2f3a;
+	/*border: 2px solid #2e2f3a;*/
 	border-radius: 20px;
 	flex-direction: column;
 	overflow-y: auto !important;
+	padding-bottom: 80px;
 }
 
 .Chatroom .dashboard .chat .chat_container .chat_message {
@@ -239,6 +252,7 @@ svg {
 	align-items: center;
 	margin-right: 10px;
 	margin-left: 10px;
+	font-size: small;
 
 	background-color: var(--secondary-color);
 }
@@ -249,7 +263,8 @@ svg {
 	.chat_container
 	.chat_message
 	.chat_message_username {
-	font-size: 0.98rem;
+	font-size: small;
+	font-weight: bolder;
 	color: var(--secondary-color);
 }
 .Chatroom .dashboard .chat .chat_container .chat_message .chat_message_text {
@@ -281,7 +296,7 @@ svg {
 	height: 100%;
 	width: 80px;
 	border: 0;
-	color: white;
+	color: var(--secondary-color);
 }
 
 .giphy_picker {
@@ -314,9 +329,14 @@ svg {
 	border: none;
 	background-color: transparent;
 	resize: vertical;
-	color: white;
+	color: black;
+	font-size: small;
+	background-color: white;
+	border-radius: 28px;
+}
 
-	font-size: 1.2rem;
+.Chatroom .dashboard .chat_input {
+	margin-bottom: 8px;
 }
 
 .mobileOnly {
@@ -386,7 +406,7 @@ svg {
 	}
 
 	.Chatroom .dashboard .chat_input {
-		height: 80px;
+		height: 50px;
 		width: 100%;
 	}
 

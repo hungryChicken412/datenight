@@ -286,16 +286,25 @@ export default function Home() {
 					<div className="chat dashboard__right">
 						<div className="chat_controls">
 							<div className="chat_controls__buttons">
-								<button onClick={showMenu}>
+								{/* <button onClick={showMenu}>
 									{" "}
 									<MdMenu size={28} />
-								</button>
-								<button>
+								</button> */}
+								<button style={{ color: "gray" }}>
 									{" "}
 									<Menu
 										menuButton={
 											<MenuButton>
-												<GrSettingsOption size={17} />
+												<span
+													style={{
+														color: "rgb(50 50 50)",
+														fontWeight: "bolder",
+													}}
+												>
+													<GrSettingsOption
+														size={17}
+													/>
+												</span>
 											</MenuButton>
 										}
 									>
@@ -315,7 +324,16 @@ export default function Home() {
 									<Menu
 										menuButton={
 											<MenuButton>
-												<HiMiniVideoCamera size={17} />
+												<span
+													style={{
+														color: "rgb(50 50 50)",
+														fontWeight: "bolder",
+													}}
+												>
+													<HiMiniVideoCamera
+														size={17}
+													/>{" "}
+												</span>
 											</MenuButton>
 										}
 									>
@@ -325,11 +343,7 @@ export default function Home() {
 								</button>
 							</div>
 							<div className="chat_controls__buttons">
-								<button
-									className=""
-									style={{ color: " #rgb(205 17 28)" }}
-									onClick={copyCode}
-								>
+								<button className="" onClick={copyCode}>
 									{" "}
 									<div className="sharecode">
 										{" "}
@@ -428,11 +442,11 @@ export default function Home() {
 							/>
 
 							<button type="button" onClick={showTenorBoard}>
-								<HiMiniGif />
+								<HiMiniGif size={28} />
 							</button>
 
 							<button type="submit">
-								<HiMiniChatBubbleBottomCenterText />
+								<HiMiniChatBubbleBottomCenterText size={28} />
 							</button>
 						</form>
 					</div>
@@ -450,6 +464,7 @@ export default function Home() {
 							placeholder="Username"
 							id="username"
 						/>
+
 						<button onClick={saveUsername}> Save </button>
 					</div>
 				</div>
