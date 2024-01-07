@@ -1,7 +1,7 @@
 "use client";
 import Head from "next/head";
 import { HiMiniVideoCamera, HiShare } from "react-icons/hi2";
-import { MdCallEnd, MdMenu } from "react-icons/md";
+import { MdCallEnd, MdEmojiEmotions, MdMenu } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 import { FcMusic } from "react-icons/fc";
@@ -85,6 +85,7 @@ export default function Home() {
 				user: username,
 				message: msg,
 				gif: false,
+				time: new Date().toLocaleTimeString(),
 				gifURL: "",
 			};
 
@@ -109,6 +110,9 @@ export default function Home() {
 				message: "Start Talking",
 
 				user: "Admin",
+				gif: false,
+				time: new Date().toLocaleTimeString(), // 11:18:48 AM,
+				gifURL: "",
 			},
 		});
 		toast.success("Chat Deleted");
@@ -160,6 +164,7 @@ export default function Home() {
 			user: username,
 			message: "",
 			gif: true,
+			time: new Date().toLocaleTimeString(),
 			gifURL: tenorImage.url,
 		});
 		showtenor(false);
@@ -410,6 +415,9 @@ export default function Home() {
 													?.message
 											)}
 										</div>
+										<div className="chat_message_time">
+											{(message as { time: string }).time}
+										</div>
 									</div>
 								</div>
 							))}
@@ -440,6 +448,9 @@ export default function Home() {
 								className="chat_input__input"
 								id="inputMessage"
 							/>
+							<button type="button" onClick={showTenorBoard}>
+								<MdEmojiEmotions size={28} />
+							</button>
 
 							<button type="button" onClick={showTenorBoard}>
 								<HiMiniGif size={28} />

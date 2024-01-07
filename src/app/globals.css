@@ -220,9 +220,14 @@ svg {
 .Chatroom .dashboard .chat .chat_container .chat_message {
 	display: flex;
 	flex-direction: row;
-	align-items: bottom;
+	align-items: end;
 	margin: 10px;
 	animation: messageComein 0.5s ease-in-out;
+}
+.chat_message_time {
+	font-size: 8px;
+	color: rgb(167, 167, 167);
+	font-weight: bolder;
 }
 
 .Chatroom .dashboard .chat .chat_container .recieving {
@@ -331,6 +336,8 @@ svg {
 	resize: vertical;
 	color: black;
 	font-size: small;
+
+	padding-left: 20px;
 	background-color: white;
 	border-radius: 28px;
 }
