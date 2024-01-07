@@ -281,10 +281,11 @@ export default function Home() {
 						<div className="chat_container">
 							{messages.map((message) => (
 								<div
-									key={message?.time}
+									key={(message as { time: string })?.time}
 									className={
 										"chat_message" +
-										(message?.sender == "self"
+										((message as { sender: string })
+											?.sender == "self"
 											? " sending"
 											: " recieving")
 									}
@@ -300,10 +301,16 @@ export default function Home() {
 
 									<div className="chat_message_content">
 										<div className="chat_message_username">
-											{message?.user}
+											{
+												(message as { user: string })
+													?.user
+											}
 										</div>
 										<div className="chat_message_text">
-											{message?.message}
+											{
+												(message as { message: string })
+													?.message
+											}
 										</div>
 									</div>
 								</div>
