@@ -54,6 +54,17 @@ export default function Home() {
 	useEffect(() => {
 		let id = pathname.split("/")[2];
 		setRoomID(id);
+		if (localStorage.getItem("username")) {
+			const usernameFromLocalStorage = localStorage.getItem("username");
+			setUsername(
+				usernameFromLocalStorage !== null
+					? usernameFromLocalStorage
+					: "user"
+			);
+		} else {
+			setUsername("user");
+			localStorage.setItem("username", "user");
+		}
 		const dbRef = ref(db, id);
 
 		const listener = onValue(
@@ -65,9 +76,15 @@ export default function Home() {
 					setMessages(Object.values(data));
 					setMessageIndex(data.length - 1);
 					const messageBox = document.getElementById("messageBox");
+
 					if (messageBox) {
 						messageBox.scrollBy(0, 60000);
+					} else {
+						console.log("no message box");
 					}
+					setTimeout(() => {
+						messageBox?.scrollBy(0, 60000);
+					}, 2);
 				} catch (error) {
 					console.log(error);
 				}
@@ -173,9 +190,12 @@ export default function Home() {
 		let username = (document.getElementById("username") as HTMLInputElement)
 			.value;
 
-		setUsername(username);
 		if (username !== "") {
 			toast.success("Username Saved! Changed to " + username);
+			setUsername(username);
+			localStorage.setItem("username", username);
+			(document.getElementById("username") as HTMLInputElement).value =
+				"";
 		}
 
 		setSettings(false);
