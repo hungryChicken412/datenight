@@ -520,7 +520,7 @@ svg {
 	border: none;
 	background-color: var(--secondary-color);
 
-	color: white;
+	color: white; /**/
 	font-size: small;
 
 	text-overflow: ellipsis; 
