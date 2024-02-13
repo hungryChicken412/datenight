@@ -313,7 +313,7 @@ svg {
 	background-color: transparent;
 
 	height: 100%;
-	width: 80px;
+	width: 040px;
 	border: 0;
 	color: var(--secondary-color);
 }
@@ -352,7 +352,7 @@ svg {
 	font-size: small;
 
 	padding-left: 20px;
-	background-color: white;
+
 	border-radius: 28px;
 }
 
@@ -502,7 +502,6 @@ svg {
 	color: black;
 	font-size: small;
 
-	padding-left: 20px;
 	background-color: white;
 	border-radius: 28px;
 }
@@ -518,16 +517,13 @@ svg {
 	height: 100%;
 	text-decoration: none;
 	border: none;
-	background-color: var(--secondary-color);
 
-	color: white; /**/
+	color: black; /**/
 	font-size: small;
 
-	text-overflow: ellipsis; 
+	text-overflow: ellipsis;
 	white-space: nowrap;
 	text-align: center;
-
-	padding-left: 20px;
 
 	border-radius: 28px;
 	padding-top: 10px;
@@ -536,7 +532,7 @@ svg {
 }
 
 .linkfile > svg {
-	fill: white;
+	fill: black;
 	height: 40px;
 	width: 40px;
 }

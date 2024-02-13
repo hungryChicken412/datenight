@@ -813,15 +813,7 @@ export default function Home() {
 														}
 													)?.emoji
 														? " gif"
-														: "") +
-													" " +
-													(
-														message as {
-															file: string;
-														}
-													).file
-														? " file"
-														: ""
+														: "")
 												}
 											>
 												<div className="chat_message_username">
@@ -986,12 +978,7 @@ export default function Home() {
 									<Menu
 										menuButton={
 											<MenuButton>
-												<span
-													style={{
-														color: "rgb(50 50 50)",
-														fontWeight: "bolder",
-													}}
-												>
+												<span>
 													<HiEllipsisVertical
 														size={17}
 													/>
